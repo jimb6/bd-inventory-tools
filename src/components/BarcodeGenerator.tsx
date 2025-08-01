@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Barcode } from '@/components/Barcode';
 import { storageUtils } from '@/lib/storage';
+import { toast } from "sonner";
 
 export const BarcodeGenerator = () => {
   const [customBarcode, setCustomBarcode] = useState('');
@@ -16,17 +17,31 @@ export const BarcodeGenerator = () => {
   const generateRandomBarcode = () => {
     const newBarcode = storageUtils.generateBarcode();
     setGeneratedBarcode(newBarcode);
+    
+    toast.success("Barcode generated!", {
+      description: `New unique barcode: ${newBarcode}`,
+      duration: 3000,
+    });
+    
     setMessage({ type: 'success', text: 'New barcode generated!' });
   };
 
   const handleCustomBarcode = () => {
     if (!customBarcode.trim()) {
+      toast.warning("Missing barcode value", {
+        description: "Please enter a barcode value",
+        duration: 3000,
+      });
       setMessage({ type: 'error', text: 'Please enter a barcode value' });
       return;
     }
 
     // Basic validation for barcode format
     if (customBarcode.length < 4) {
+      toast.error("Invalid barcode", {
+        description: "Barcode must be at least 4 characters long",
+        duration: 3000,
+      });
       setMessage({ type: 'error', text: 'Barcode must be at least 4 characters long' });
       return;
     }
@@ -34,6 +49,10 @@ export const BarcodeGenerator = () => {
     // Check if barcode already exists
     const existingProduct = storageUtils.findProductByBarcode(customBarcode);
     if (existingProduct) {
+      toast.error("Barcode already in use", {
+        description: `This barcode is already used by: ${existingProduct.name}`,
+        duration: 4000,
+      });
       setMessage({ 
         type: 'error', 
         text: `This barcode is already used by: ${existingProduct.name}` 
@@ -42,21 +61,50 @@ export const BarcodeGenerator = () => {
     }
 
     setGeneratedBarcode(customBarcode);
+    
+    toast.success("Custom barcode created!", {
+      description: `Barcode ${customBarcode} is ready to use`,
+      duration: 3000,
+    });
+    
     setMessage({ type: 'success', text: 'Custom barcode created!' });
   };
 
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
+      
+      toast.success("Copied to clipboard!", {
+        description: `Barcode ${text} copied`,
+        duration: 2000,
+      });
+      
       setMessage({ type: 'success', text: 'Barcode copied to clipboard!' });
     } catch {
+      toast.error("Copy failed", {
+        description: "Unable to copy to clipboard",
+        duration: 3000,
+      });
       setMessage({ type: 'error', text: 'Failed to copy to clipboard' });
     }
   };
 
   const printBarcode = () => {
+    if (!generatedBarcode) {
+      toast.warning("No barcode to print", {
+        description: "Please generate a barcode first",
+        duration: 3000,
+      });
+      return;
+    }
+
     const printWindow = window.open('', '_blank');
     if (printWindow && generatedBarcode) {
+      toast.success("Print dialog opened", {
+        description: "Barcode ready for printing",
+        duration: 2000,
+      });
+
       printWindow.document.write(`
         <!DOCTYPE html>
         <html>

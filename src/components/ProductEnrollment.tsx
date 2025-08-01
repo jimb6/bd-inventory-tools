@@ -11,6 +11,7 @@ import { Barcode } from '@/components/Barcode';
 import { QRScanner } from '@/components/QRScanner';
 import { storageUtils } from '@/lib/storage';
 import { Product } from '@/types/inventory';
+import { toast } from "sonner";
 
 interface ProductEnrollmentProps {
   onProductAdded?: (product: Product) => void;
@@ -61,6 +62,12 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         category: formData.category,
       });
 
+      // Show success toast
+      toast.success("Product added successfully!", {
+        description: `${formData.name} has been added to inventory`,
+        duration: 3000,
+      });
+      
       setMessage({ type: 'success', text: 'Product added successfully!' });
       setFormData({
         name: '',
@@ -72,6 +79,10 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
       });
       onProductAdded?.(newProduct);
     } catch {
+      toast.error("Failed to add product", {
+        description: "Please try again or check your input",
+        duration: 4000,
+      });
       setMessage({ type: 'error', text: 'Failed to add product' });
     }
   };
@@ -92,8 +103,16 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         unitOfMeasure: existingProduct.unitOfMeasure || '',
         category: existingProduct.category || '',
       });
+      toast.success("Product found!", {
+        description: `${existingProduct.name} loaded from inventory`,
+        duration: 3000,
+      });
       setMessage({ type: 'success', text: 'Product found and loaded!' });
     } else {
+      toast.warning("Product not found", {
+        description: "You can add it as a new product",
+        duration: 4000,
+      });
       setMessage({ type: 'error', text: 'Product not found. You can add it as a new product.' });
     }
   };
@@ -101,6 +120,12 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
   const handleScanResult = (scannedCode: string) => {
     setFormData(prev => ({ ...prev, barcode: scannedCode }));
     setShowScanner(false);
+    
+    toast.info("Barcode scanned!", {
+      description: `Code: ${scannedCode}`,
+      duration: 2000,
+    });
+    
     setMessage({ type: 'success', text: `Scanned: ${scannedCode}` });
     
     // Automatically search for the product
@@ -114,7 +139,18 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         unitOfMeasure: existingProduct.unitOfMeasure || '',
         category: existingProduct.category || '',
       });
+      
+      toast.success("Product found!", {
+        description: `${existingProduct.name} loaded from inventory`,
+        duration: 3000,
+      });
+      
       setMessage({ type: 'success', text: `Product found: ${existingProduct.name}` });
+    } else {
+      toast.warning("New product", {
+        description: "Product not in inventory - ready to add",
+        duration: 3000,
+      });
     }
   };
 

@@ -8,6 +8,18 @@ import { Badge } from '@/components/ui/badge';
 import { Barcode } from '@/components/Barcode';
 import { storageUtils } from '@/lib/storage';
 import { Product } from '@/types/inventory';
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface ProductListProps {
   refreshTrigger?: number;
@@ -33,10 +45,20 @@ export const ProductList = ({ refreshTrigger }: ProductListProps) => {
     (product.category && product.category.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const deleteProduct = (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+  const deleteProduct = (id: string, productName: string) => {
+    try {
       storageUtils.deleteProduct(id);
       loadProducts();
+      
+      toast.success("Product deleted", {
+        description: `${productName} has been removed from inventory`,
+        duration: 3000,
+      });
+    } catch {
+      toast.error("Failed to delete product", {
+        description: "Please try again",
+        duration: 4000,
+      });
     }
   };
 
@@ -133,14 +155,36 @@ export const ProductList = ({ refreshTrigger }: ProductListProps) => {
                           >
                             {expandedProduct === product.id ? 'Hide' : 'View'}
                           </Button>
-                          <Button
-                            onClick={() => deleteProduct(product.id)}
-                            variant="destructive"
-                            size="sm"
-                            className="text-xs px-2 md:px-3"
-                          >
-                            Delete
-                          </Button>
+                          
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                className="text-xs px-2 md:px-3"
+                              >
+                                Delete
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete <strong>{product.name}</strong>? 
+                                  This action cannot be undone and will permanently remove this product from your inventory.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => deleteProduct(product.id, product.name)}
+                                  className="bg-red-600 hover:bg-red-700"
+                                >
+                                  Delete Product
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     </div>

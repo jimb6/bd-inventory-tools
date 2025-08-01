@@ -8,6 +8,7 @@ import { ProductEnrollment } from "@/components/ProductEnrollment";
 import { BarcodeGenerator } from "@/components/BarcodeGenerator";
 import { InventoryCount } from "@/components/InventoryCount";
 import { ProductList } from "@/components/ProductList";
+import { MobileAppBar } from "@/components/MobileAppBar";
 import { loadDemoData } from "@/lib/demoData";
 import { platformUtils } from "@/lib/platform";
 
@@ -38,9 +39,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Mobile App Bar */}
+      <MobileAppBar onRefresh={() => setRefreshTrigger(prev => prev + 1)} />
+      
       <div className="container mx-auto px-3 md:px-4 py-4 md:py-8 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-6 md:mb-8">
+        {/* Header - Hide on mobile when using app bar */}
+        <div className={`text-center mb-6 md:mb-8 ${platformUtils.isMobile() ? 'hidden' : ''}`}>
           <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-4">
             {/* <Image
               className="dark:invert"

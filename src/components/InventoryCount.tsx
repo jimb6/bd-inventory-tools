@@ -11,6 +11,7 @@ import { Barcode } from '@/components/Barcode';
 import { QRScanner } from '@/components/QRScanner';
 import { storageUtils } from '@/lib/storage';
 import { Product } from '@/types/inventory';
+import { toast } from "sonner";
 
 interface InventoryCountProps {
   onInventoryUpdated?: () => void;
@@ -27,6 +28,10 @@ export const InventoryCount = ({ onInventoryUpdated }: InventoryCountProps) => {
 
   const handleBarcodeSubmit = () => {
     if (!scannedBarcode.trim()) {
+      toast.warning("Missing barcode", {
+        description: "Please enter a barcode to search",
+        duration: 3000,
+      });
       setMessage({ type: 'error', text: 'Please enter a barcode' });
       return;
     }
@@ -35,8 +40,18 @@ export const InventoryCount = ({ onInventoryUpdated }: InventoryCountProps) => {
     if (product) {
       setCurrentProduct(product);
       setQuantityUpdate(0);
+      
+      toast.success("Product found!", {
+        description: `${product.name} - Current stock: ${product.quantity} ${product.unitOfMeasure || 'units'}`,
+        duration: 3000,
+      });
+      
       setMessage({ type: 'success', text: `Product found: ${product.name}` });
     } else {
+      toast.error("Product not found", {
+        description: "Please enroll this product first",
+        duration: 4000,
+      });
       setCurrentProduct(null);
       setMessage({ type: 'error', text: 'Product not found. Please enroll this product first.' });
     }
@@ -71,6 +86,15 @@ export const InventoryCount = ({ onInventoryUpdated }: InventoryCountProps) => {
         timestamp: new Date()
       }, ...prev.slice(0, 4)]); // Keep last 5 updates
 
+      // Show success toast
+      const action = updateType === 'add' ? 'Added' : updateType === 'subtract' ? 'Removed' : 'Set to';
+      const change = updateType === 'set' ? newQuantity : quantityUpdate;
+      
+      toast.success("Inventory updated", {
+        description: `${currentProduct.name}: ${action} ${change} ${currentProduct.unitOfMeasure || 'units'}. New total: ${newQuantity}`,
+        duration: 3000,
+      });
+
       setMessage({ 
         type: 'success', 
         text: `Quantity updated: ${oldQuantity} → ${newQuantity}` 
@@ -78,6 +102,10 @@ export const InventoryCount = ({ onInventoryUpdated }: InventoryCountProps) => {
       setQuantityUpdate(0);
       onInventoryUpdated?.();
     } else {
+      toast.error("Failed to update inventory", {
+        description: "Please try again",
+        duration: 4000,
+      });
       setMessage({ type: 'error', text: 'Failed to update quantity' });
     }
   };
@@ -97,14 +125,28 @@ export const InventoryCount = ({ onInventoryUpdated }: InventoryCountProps) => {
     if (product) {
       setCurrentProduct(product);
       setQuantityUpdate(0);
+      
+      toast.success("Product found!", {
+        description: `${product.name} - Current stock: ${product.quantity} ${product.unitOfMeasure || 'units'}`,
+        duration: 3000,
+      });
+      
       setMessage({ type: 'success', text: `Product found: ${product.name}` });
     } else {
+      toast.error("Product not found", {
+        description: "Please enroll this product first",
+        duration: 4000,
+      });
       setCurrentProduct(null);
       setMessage({ type: 'error', text: 'Product not found. Please enroll this product first.' });
     }
   };
 
   const handleScanError = (error: string) => {
+    toast.error("Scan failed", {
+      description: error,
+      duration: 4000,
+    });
     setMessage({ type: 'error', text: `Scan failed: ${error}` });
     setShowScanner(false);
   };
