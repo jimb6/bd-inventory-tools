@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.bdassociates.inventory',
-  appName: 'BD Associates Inventory',
+  appName: 'BD Associates Inventory Manager',
   webDir: 'out',
   server: {
     androidScheme: 'https'

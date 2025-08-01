@@ -50,7 +50,7 @@ export default function Home() {
               height={20}
               priority
             /> */}
-            <span className="text-xl md:text-2xl font-bold">BD & Associates Inventory System Tools</span>
+            <span className="text-xl md:text-2xl font-bold">BD & Associates Inventory Manager</span>
           </div>
           <p className="text-gray-600 text-sm md:text-base px-4">
             Complete inventory management with barcode scanning and product enrollment

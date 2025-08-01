@@ -22,7 +22,7 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
     description: '',
     barcode: '',
     quantity: 0,
-    price: 0,
+    unitOfMeasure: '',
     category: '',
   });
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -57,7 +57,7 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         description: formData.description,
         barcode: formData.barcode,
         quantity: formData.quantity,
-        price: formData.price,
+        unitOfMeasure: formData.unitOfMeasure,
         category: formData.category,
       });
 
@@ -67,7 +67,7 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         description: '',
         barcode: '',
         quantity: 0,
-        price: 0,
+        unitOfMeasure: '',
         category: '',
       });
       onProductAdded?.(newProduct);
@@ -89,7 +89,7 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         description: existingProduct.description || '',
         barcode: existingProduct.barcode,
         quantity: existingProduct.quantity,
-        price: existingProduct.price || 0,
+        unitOfMeasure: existingProduct.unitOfMeasure || '',
         category: existingProduct.category || '',
       });
       setMessage({ type: 'success', text: 'Product found and loaded!' });
@@ -111,7 +111,7 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
         description: existingProduct.description || '',
         barcode: existingProduct.barcode,
         quantity: existingProduct.quantity,
-        price: existingProduct.price || 0,
+        unitOfMeasure: existingProduct.unitOfMeasure || '',
         category: existingProduct.category || '',
       });
       setMessage({ type: 'success', text: `Product found: ${existingProduct.name}` });
@@ -207,14 +207,12 @@ export const ProductEnrollment = ({ onProductAdded }: ProductEnrollmentProps) =>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="price">Price</Label>
+              <Label htmlFor="unitOfMeasure">Unit of Measure</Label>
               <Input
-                id="price"
-                type="number"
-                step="0.01"
-                placeholder="Enter price"
-                value={formData.price}
-                onChange={(e) => handleInputChange('price', parseFloat(e.target.value) || 0)}
+                id="unitOfMeasure"
+                placeholder="e.g., pieces, kg, liters, boxes"
+                value={formData.unitOfMeasure}
+                onChange={(e) => handleInputChange('unitOfMeasure', e.target.value)}
               />
             </div>
           </div>

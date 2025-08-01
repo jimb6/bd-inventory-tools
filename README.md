@@ -1,4 +1,4 @@
-# BD & Associates Inventory System Tools
+# BD & Associates Inventory Manager
 
 A comprehensive inventory management system with QR/Barcode scanning capabilities for both web and mobile platforms.
 

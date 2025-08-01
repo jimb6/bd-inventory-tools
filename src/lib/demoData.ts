@@ -6,7 +6,7 @@ export const demoData = [
     description: 'Latest Android smartphone with 5G connectivity',
     barcode: '7123456789012',
     quantity: 25,
-    price: 599.99,
+    unitOfMeasure: 'units',
     category: 'Electronics'
   },
   {
@@ -14,7 +14,7 @@ export const demoData = [
     description: 'Premium Arabica coffee beans from Colombia',
     barcode: '7234567890123',
     quantity: 8,
-    price: 24.99,
+    unitOfMeasure: 'kg',
     category: 'Food & Beverage'
   },
   {
@@ -22,7 +22,7 @@ export const demoData = [
     description: 'Noise-cancelling Bluetooth headphones',
     barcode: '7345678901234',
     quantity: 15,
-    price: 199.99,
+    unitOfMeasure: 'pairs',
     category: 'Electronics'
   },
   {
@@ -30,7 +30,7 @@ export const demoData = [
     description: 'A5 lined notebook with hardcover',
     barcode: '7456789012345',
     quantity: 50,
-    price: 12.99,
+    unitOfMeasure: 'pieces',
     category: 'Stationery'
   },
   {
@@ -38,7 +38,7 @@ export const demoData = [
     description: 'Cotton crew neck t-shirt in various sizes',
     barcode: '7567890123456',
     quantity: 3,
-    price: 19.99,
+    unitOfMeasure: 'pieces',
     category: 'Clothing'
   }
 ];

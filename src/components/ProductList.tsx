@@ -113,7 +113,7 @@ export const ProductList = ({ refreshTrigger }: ProductListProps) => {
                         
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs md:text-sm text-gray-500">
                           <span className="truncate">Barcode: {product.barcode}</span>
-                          {product.price && <span>Price: ${product.price.toFixed(2)}</span>}
+                          {product.unitOfMeasure && <span>Unit: {product.unitOfMeasure}</span>}
                           <span>Updated: {product.updatedAt.toLocaleDateString()}</span>
                         </div>
                       </div>
@@ -121,7 +121,7 @@ export const ProductList = ({ refreshTrigger }: ProductListProps) => {
                       <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-2 sm:ml-4">
                         <div className="text-center sm:text-right">
                           <div className="text-lg md:text-xl font-bold">{product.quantity}</div>
-                          <div className="text-xs text-gray-500">in stock</div>
+                          <div className="text-xs text-gray-500">{product.unitOfMeasure || 'units'} in stock</div>
                         </div>
                         
                         <div className="flex gap-1 md:gap-2">

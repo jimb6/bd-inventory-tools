@@ -4,7 +4,7 @@ export interface Product {
   description?: string;
   barcode: string;
   quantity: number;
-  price?: number;
+  unitOfMeasure?: string;
   category?: string;
   createdAt: Date;
   updatedAt: Date;
