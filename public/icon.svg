@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- BD & Associates Logo Recreation -->
+  <rect width="512" height="512" fill="#f8f9fa"/>
+  
+  <!-- Main container box -->
+  <rect x="64" y="64" width="384" height="384" fill="none" stroke="#1e3a5f" stroke-width="8"/>
+  
+  <!-- BD Text -->
+  <text x="256" y="200" font-family="serif" font-size="120" font-weight="bold" text-anchor="middle" fill="#1e3a5f">BD</text>
+  
+  <!-- Ampersand -->
+  <text x="256" y="280" font-family="serif" font-size="80" font-weight="bold" text-anchor="middle" fill="#1e3a5f">&amp;</text>
+  
+  <!-- ASSOCIATES text -->
+  <text x="256" y="340" font-family="serif" font-size="32" font-weight="normal" text-anchor="middle" fill="#1e3a5f">ASSOCIATES</text>
+  
+  <!-- CERTIFIED PUBLIC ACCOUNTANT text -->
+  <text x="256" y="380" font-family="serif" font-size="18" font-weight="normal" text-anchor="middle" fill="#1e3a5f">CERTIFIED PUBLIC ACCOUNTANT</text>
+</svg>

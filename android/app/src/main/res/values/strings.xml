@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BD Associates Inventory Manager</string>
+    <string name="title_activity_main">BD Associates Inventory Manager</string>
+    <string name="package_name">com.bdassociates.inventory</string>
+    <string name="custom_url_scheme">com.bdassociates.inventory</string>
+</resources>

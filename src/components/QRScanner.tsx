@@ -7,9 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { platformUtils } from '@/lib/platform';
 
 // Import Capacitor scanner for native platforms
-let BarcodeScanner: typeof import('@capacitor-community/barcode-scanner').BarcodeScanner | null = null;
+let BarcodeScanner: typeof import('@capacitor-mlkit/barcode-scanning').BarcodeScanner | null = null;
 if (typeof window !== 'undefined') {
-  import('@capacitor-community/barcode-scanner').then(module => {
+  import('@capacitor-mlkit/barcode-scanning').then(module => {
     BarcodeScanner = module.BarcodeScanner;
   });
 }
@@ -85,22 +85,26 @@ export const QRScanner = ({ onScan, onError, isActive, onClose }: QRScannerProps
       throw new Error('Barcode scanner not available');
     }
 
-    // Check permission
-    const status = await BarcodeScanner.checkPermission({ force: true });
-    
-    if (status.granted) {
-      // Make background transparent
-      BarcodeScanner.hideBackground();
+    try {
+      // Check permissions
+      const permissions = await BarcodeScanner.checkPermissions();
+      
+      if (permissions.camera !== 'granted') {
+        const requestResult = await BarcodeScanner.requestPermissions();
+        if (requestResult.camera !== 'granted') {
+          throw new Error('Camera permission denied');
+        }
+      }
       
       // Start scanning
-      const result = await BarcodeScanner.startScan();
+      const result = await BarcodeScanner.scan();
       
-      if (result.hasContent) {
-        onScan(result.content);
+      if (result.barcodes && result.barcodes.length > 0) {
+        onScan(result.barcodes[0].rawValue || '');
         stopScanning();
       }
-    } else {
-      throw new Error('Camera permission denied');
+    } catch (error) {
+      throw new Error(`Scanning failed: ${error}`);
     }
   };
 
@@ -144,8 +148,8 @@ export const QRScanner = ({ onScan, onError, isActive, onClose }: QRScannerProps
     
     try {
       if (platformUtils.isNative() && BarcodeScanner) {
-        await BarcodeScanner.stopScan();
-        BarcodeScanner.showBackground();
+        // MLKit scanner doesn't need explicit stop calls
+        // The scan method is one-shot
       } else if (scannerRef.current) {
         scannerRef.current.clear();
         scannerRef.current = null;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BD & Associates Brand Colors (Dark Mode) -->
+    <color name="colorPrimary">#2563eb</color>
+    <color name="colorPrimaryDark">#1d4ed8</color>
+    <color name="colorAccent">#60a5fa</color>
+    
+    <!-- Additional Colors (Dark Mode) -->
+    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorSurface">#1f1f1f</color>
+    <color name="colorOnSurface">#ffffff</color>
+    
+    <!-- Status Bar (Dark Mode) -->
+    <color name="statusBarColor">#000000</color>
+    
+    <!-- App Bar (Dark Mode) -->
+    <color name="appBarBackground">#1e3a5f</color>
+    <color name="appBarText">#ffffff</color>
+    
+    <!-- Background (Dark Mode) -->
+    <color name="backgroundColor">#121212</color>
+</resources>
