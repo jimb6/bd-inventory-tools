@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BD & Associates Inventory System Tools
+
+A comprehensive inventory management system with QR/Barcode scanning capabilities for both web and mobile platforms.
+
+## Features
+
+### 🚀 Core Functions
+1. **Product Enrollment**
+   - Manual product entry
+   - QR/Barcode-based enrollment
+   - Automatic barcode generation
+
+2. **Barcode Generation**
+   - Generate unique barcodes
+   - Custom barcode values
+   - Print-ready barcodes
+
+3. **Inventory Count**
+   - QR/Barcode scanning for quantity updates
+   - Real-time stock tracking
+   - Multiple update modes (add, subtract, set)
+
+### 📱 Platform Support
+- **Web Browser**: Uses HTML5 camera API for QR scanning
+- **Mobile Apps**: Native camera scanning via Capacitor
+- **Cross-platform**: Same codebase, optimized experience
 
 ## Getting Started
 
-First, run the development server:
-
+### Web Development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Mobile Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Setup
+```bash
+# Build for mobile
+npm run build:mobile
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Add platforms
+npx cap add android
+npx cap add ios
+```
 
-## Learn More
+#### Android
+```bash
+npm run android
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### iOS
+```bash
+npm run ios
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## QR/Barcode Scanning
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Web Browsers
+- Uses device camera through web APIs
+- Works on mobile browsers and desktop with webcam
+- No installation required
 
-## Deploy on Vercel
+### Native Mobile Apps
+- Uses device's native camera
+- Better performance and scanning accuracy
+- Access to device-specific features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Supported Formats
+- QR Codes
+- Code 128 barcodes
+- EAN-13/EAN-8
+- UPC codes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Usage
+
+1. **Load Sample Data**: Click "Load Sample Data" to populate with demo products
+2. **Scan Products**: Use "Scan QR" buttons in Product Enrollment or Inventory Count
+3. **Update Inventory**: Scan items and update quantities in real-time
+4. **Generate Barcodes**: Create printable barcodes for new products
+
+## Platform Detection
+
+The app automatically detects:
+- Platform type (web/android/ios)
+- Camera availability
+- Native vs web environment
+
+## Technical Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **UI**: shadcn/ui, Tailwind CSS
+- **Mobile**: Capacitor.js
+- **QR Scanning**: 
+  - Web: html5-qrcode
+  - Mobile: @capacitor-community/barcode-scanner
+- **Storage**: Local Storage (browser/device)
+
+## Development
+
+### Project Structure
+```
+src/
+├── app/                 # Next.js app router
+├── components/          # React components
+│   ├── ui/             # shadcn/ui components
+│   ├── QRScanner.tsx   # Universal QR scanner
+│   └── ...
+├── lib/                # Utilities
+│   ├── platform.ts    # Platform detection
+│   ├── storage.ts     # Local storage utils
+│   └── ...
+└── types/              # TypeScript types
+```
+
+### Key Features
+- **Responsive Design**: Mobile-first approach
+- **Platform Agnostic**: Same codebase for web and mobile
+- **Real-time Updates**: Live inventory tracking
+- **Offline Capable**: Local storage persistence
+
+## Browser Compatibility
+
+### Web QR Scanning Requirements
+- HTTPS (required for camera access)
+- Modern browser with camera support
+- User permission for camera access
+
+### Supported Browsers
+- Chrome/Edge 70+
+- Firefox 65+
+- Safari 14+
+- Mobile browsers with camera support
+
+## Deployment
+
+### Web
+Deploy to any static hosting service (Vercel, Netlify, etc.)
+
+### Mobile
+Build and distribute through app stores or as PWA
+
+---
+
+**Platform Detection**: The app shows current platform and camera status in the header.
+**Demo Mode**: Uses local storage for temporary demonstration.
